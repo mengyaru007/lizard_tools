@@ -6,7 +6,7 @@ class Evaluation(EnvCon):
         super().__init__(host)
         # 评估任务id
         self.evaluate_job_id = 0
-        self.task = 0
+        self.taskId = 0
         self.project_evaluation_job_id = 0
         self.get_evaluate_job_id()
         self.get_evaluate_job_info()
@@ -21,10 +21,12 @@ class Evaluation(EnvCon):
 
     def get_evaluate_job_info(self):
         """获取评估任务相关信息"""
-        images = self.get_normal_pictures()
-        images.update(self.get_abnormal_pictures())
-        images_list = list(images.values())
-        self.task = images_list[0]["taskId"]
+        url = self.host + f"/api/v1/project-evaluation/{self.evaluate_job_id}/inference-results"
+        print(f"请求接口{url}")
+        res = self.session.request("get", url).json()
+        print(f"{url}的响应数据：{res}")
+        images_list = res['result']
+        self.taskId = images_list[0]["taskId"]
         self.project_evaluation_job_id = images_list[0]["projectEvaluationJobId"]
 
     def get_normal_pictures(self):
@@ -33,9 +35,9 @@ class Evaluation(EnvCon):
         print(f"请求接口{url}")
         res = self.session.request("get", url).json()
         print(f"{url}的响应数据：{res}")
-        image_list= res['result']['list']
+        images_list= res['result']
         images_id_name = {}
-        for imageInfo in image_list:
+        for imageInfo in images_list:
             images_id_name[imageInfo['id']] = imageInfo['name']
         print(f"OK图片总共{len(images_id_name)}个图片！")
         return images_id_name
@@ -46,9 +48,9 @@ class Evaluation(EnvCon):
         print(f"请求接口{url}")
         res = self.session.request("get", url).json()
         print(f"{url}的响应数据：{res}")
-        image_list = res['result']['list']
+        images_list = res['result']
         images_id_name = {}
-        for imageInfo in image_list:
+        for imageInfo in images_list:
             images_id_name[imageInfo['id']] = imageInfo['name']
         print(f"NG图片总共{len(images_id_name)}个图片！")
         return images_id_name
