@@ -36,3 +36,11 @@ class DataSet(EnvCon):
         res = self.session.request("DELETE", url, params={"annotationIds": image_id}).json()
         print(f"{url}的响应数据：{res}")
         assert res['message'] == "成功", f"删除图片id={image_id}失败！"
+
+    def copy_images(self, image_id, target_version):
+        """同一数据集不同版本下进行复制"""
+        url = self.host + f"/api/v1/data-service/api/v2/datasets/{self.dataset_id}/versions/{target_version}/import-existing-common-files"
+        print(f"请求接口{url}，复制的图片id={image_id}，复制到的版本={target_version}")
+        res = self.session.request("POST", url, json={"ids": [image_id]}).json()
+        print(f"{url}的响应数据：{res}")
+        assert res['message'] == "成功", f"复制图片id={image_id}失败！"
