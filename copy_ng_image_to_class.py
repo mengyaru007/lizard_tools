@@ -1,6 +1,5 @@
 import os
 import shutil
-from pathlib import Path
 folders = ["cavity-front", "cavity-side", "chafer1", "chafer2", "crown-groove1", "crown-groove2", "crown-groove3", "crown-groove4", "crown-surface", "sidewall1", "sidewall2", "sidewall3", "sidewall4"]
 
 def copy_ng_image(parent_dir, output_dir):
