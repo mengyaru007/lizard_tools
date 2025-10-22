@@ -26,7 +26,17 @@ class DataSet(EnvCon):
         print(f"请求接口{url}")
         res = self.session.request("get", url).json()
         for item in res['result']['list']:
-            images.update({item['sampleName']: item['id']})
+            images.update({item['id']: item['sampleName']})
+        return images
+
+    def get_dataset_images_info(self):
+        """获取数据集此版本下所有图片信息"""
+        images = {}  # id:name
+        url = self.host + f"/api/v1/data-service/api/v2/dataset/{self.dataset_id}/annotation-projects/{self.version}/samples?dataType=0&labelName=&annoFormat=lizard&pageNum=1&pageSize=99999"
+        print(f"请求接口{url}")
+        res = self.session.request("get", url).json()
+        for item in res['result']['list']:
+            images.update({item['id']: item})
         return images
 
     def delete_images(self, image_id):
@@ -44,3 +54,21 @@ class DataSet(EnvCon):
         res = self.session.request("POST", url, json={"ids": [image_id]}).json()
         print(f"{url}的响应数据：{res}")
         assert res['message'] == "成功", f"复制图片id={image_id}失败！"
+
+    def get_dataset_version_labels(self):
+        """获取当前数据集版本下的labels"""
+        labels = {} # name: id
+        url = self.host + f"/api/v1/data-service/api/v2/datasets/{self.dataset_id}/versions/{self.version}/labels"
+        print(f"请求接口{url}")
+        res = self.session.request("get", url).json()
+        for item in res['result']:
+            labels.update({item['name']: item["id"]})
+        return labels
+
+    def add_image_label(self, image_id, data):
+        """给图片标注同一修改标注类别（一张图所有的标注修改为一种类别）"""
+        url = self.host +"/api/v1/datasets/actions/edit-image"
+        print(f"请求接口{url}，修改标注的图片id={image_id}，标注信息={data}")
+        res = self.session.request("post", url, json=data).json()
+        assert res["status"] == 0, f"{image_id}标注失败！"
+        print(f"标注图片{image_id}成功！")
