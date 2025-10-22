@@ -19,6 +19,6 @@ dataset = DataSet(url, dataset_name, dataset_version)
 dataset_version_images = dataset.get_dataset_images()
 # 仅保留文件中的图片数据，其余操作删除
 for key, value in dataset_version_images.items():
-    if key not in ng_images:
-        dataset.delete_images(str(value))
+    if value not in ng_images:
+        dataset.delete_images(str(key))
 print(f"已找到需要叠加ad数据的图片数据{len(ng_images)}张！")
