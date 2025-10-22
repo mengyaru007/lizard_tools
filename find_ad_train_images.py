@@ -27,6 +27,6 @@ dataset = DataSet(url, dataset_name, dataset_version)
 ng_images = ad_node.get_abnormal_pictures(ad_node_version, ng_min, ng_max)
 dataset_version_images = dataset.get_dataset_images()
 for key, value in dataset_version_images.items():
-    if key not in ng_images:
-        dataset.delete_images(str(value))
+    if value not in ng_images:
+        dataset.delete_images(str(key))
 print(f"已找到需要叠加ad数据的图片数据{len(ng_images)}张！")
