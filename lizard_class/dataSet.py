@@ -43,7 +43,7 @@ class DataSet(EnvCon):
         """数据集版本中删除图片"""
         url = self.host + f"/api/v1/data-service/api/v2/dataset/{self.dataset_id}/annotation-projects/{self.version}/tasks"
         print(f"请求接口{url}，删除的图片id={image_id}")
-        res = self.session.request("DELETE", url, params={"annotationIds": image_id}).json()
+        res = self.session.request("POST", url, json={"annotationIds": [image_id]}).json()
         print(f"{url}的响应数据：{res}")
         assert res['message'] == "成功", f"删除图片id={image_id}失败！"
 
