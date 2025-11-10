@@ -6,9 +6,9 @@ from lizard_class.decideNode import DecideNode
 
 url = "http://10.110.156.90:9012/"
 # 工程名称
-model_name = "B94-胎里正面"
+model_name = "B94-1106"
 # 检测项名称
-task_name = "cavity-front"
+task_name = "sidewall4-outer"
 
 decide = DecideNode(url, model_name, task_name)
 decide_res = decide.get_execute_result()
@@ -23,5 +23,11 @@ for item in decide_res:
         if not res[sn]: continue
         if res[sn] and not item['evaluationResult']: res[sn] = False
 
+ok_nums = 0
+ng_nums = 0
 for key, value in res.items():
-    print(f"sn={key}  value={value}")
+    if value: ok_nums += 1
+    else:
+        ng_nums += 1
+        print(f"index={ng_nums} sn={key}  value={value}")
+print(f"ok数量={ok_nums}，ng数量={ng_nums}")
