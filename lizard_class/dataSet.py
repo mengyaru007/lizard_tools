@@ -1,3 +1,5 @@
+import logging
+
 from lizard_class.envCon import EnvCon
 
 class DataSet(EnvCon):
@@ -35,6 +37,7 @@ class DataSet(EnvCon):
         url = self.host + f"/api/v1/data-service/api/v2/dataset/{self.dataset_id}/annotation-projects/{self.version}/samples?dataType=0&labelName=&annoFormat=lizard&pageNum=1&pageSize=99999"
         print(f"请求接口{url}")
         res = self.session.request("get", url).json()
+        print(f"{url}的响应数据：{res}")
         for item in res['result']['list']:
             images.update({item['id']: item})
         return images
@@ -72,3 +75,14 @@ class DataSet(EnvCon):
         res = self.session.request("post", url, json=data).json()
         assert res["status"] == 0, f"{image_id}标注失败！"
         print(f"标注图片{image_id}成功！")
+
+    def download_image(self, image_id, image_path, image_folder="./pictures/image.jpg"):
+        """下载图片"""
+        try:
+            url = self.host + "/static" + image_path
+            image_cont = self.session.get(url)
+            with open(image_folder, 'wb') as f:
+                f.write(image_cont.content)
+        except Exception as e:
+            logging.warning(f"下载图片image_id={image_id}失败！报错原因={e}")
+
