@@ -22,3 +22,11 @@ class DecideNode(TaskItem):
         res = self.session.request("get", url).json()
         print(f"{url}的响应数据：{res}")
         return res['result']['list']
+
+    def get_execute_result_image(self, imageKey):
+        """获取判定结果评估结果图片详情"""
+        url = self.host + "/api/v1/projects/" + str(self.project_id) + "/tasks/" + str(self.task_id) + f"/task-nodes/{self.decide_node_id}/execute-result/image"
+        print(f"请求接口{url},imageKey={imageKey}")
+        res = self.session.request("GET", url, params={"imageKey": imageKey}).json()
+        print(f"{url}的响应数据：{res}")
+        return res['result']['nodeList'][0]
