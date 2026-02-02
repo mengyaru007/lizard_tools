@@ -1,11 +1,11 @@
 """
 统计分类节点评估结果各个分类类别的数量
 """
-from lizard_class.classifyNode import ClassifyNode
+from api.classifyNode import ClassifyNode
 
 url = "http://10.110.152.15:9011/"
 # 工程名称
-model_name = "B94-通用分类模型"
+model_name = "B94-原始分类模型"
 # 检测项名称
 task_name = "sidewall1-inner2-08"
 res = {}

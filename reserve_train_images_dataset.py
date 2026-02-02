@@ -4,14 +4,14 @@
 2、数据集创建测试集新的版本（复制）
 3、在数据集中保留读取的图片数据，删除其他
 """
-from lizard_class.dataSet import DataSet
+from api.dataSet import DataSet
 from data.read_txt import read_txt
 
-url = "http://10.110.152.15:9011/"
+url = "http://10.110.156.92:9006/"
 # 数据集名称
-dataset_name = "10-14倍耐力数据"
+dataset_name = "马牌POC-sidewall4"
 # 数据集版本
-dataset_version = "6"
+dataset_version = "5"
 # 从文件（add_train_images）中读取的数据
 ng_images = read_txt("./data/add_train_images.txt")
 # 测试集中所有图片数据

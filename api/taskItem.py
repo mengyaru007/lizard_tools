@@ -1,4 +1,4 @@
-from lizard_class.envCon import EnvCon
+from api.envCon import EnvCon
 
 class TaskItem(EnvCon):
 
@@ -16,9 +16,7 @@ class TaskItem(EnvCon):
     def get_project_id(self):
         """获取模型id"""
         url = self.host + "/api/v1/projects"
-        print(f"请求接口{url}")
-        res = self.session.request("get", url).json()
-        print(f"{url}的响应数据：{res}")
+        res = self.session.request("get", url)
         project_list = res['result']['list']
         for item in project_list:
             if item['name'] == self.model_name:
@@ -28,9 +26,7 @@ class TaskItem(EnvCon):
     def get_task_id(self):
         """获取检测项id"""
         url = self.host + "/api/v1/projects/" + str(self.project_id) + "/tasks"
-        print(f"请求接口{url}")
-        res = self.session.request("get", url).json()
-        print(f"{url}的响应数据：{res}")
+        res = self.session.request("get", url)
         task_list = res['result']['list']
         for item in task_list:
             if item['name']  == self.task_name:
@@ -40,9 +36,7 @@ class TaskItem(EnvCon):
     def get_node_id(self, node_name="异常检测"):
         """获取节点版本配置"""
         url = self.host + "/api/v1/projects/" + str(self.project_id) + "/tasks/" + str(self.task_id) + "/pipeline"
-        print(f"请求接口{url}")
-        res = self.session.request("get", url).json()
-        print(f"{url}的响应数据：{res}")
+        res = self.session.request("get", url)
         task_list = res['result']['nodes']
         for item in task_list:
             if item['name'] == node_name:
@@ -55,9 +49,7 @@ class TaskItem(EnvCon):
         self.get_node_id(ad_node_name)
         url = self.host + "/api/v1/projects/" + str(self.project_id) + "/tasks/" + str(
             self.task_id) + "/task-nodes/" + self.node_key + "/versions?pageSize=9999&pageNum=1&onlyVersion=true"
-        print(f"请求接口{url}")
-        res = self.session.request("get", url).json()
-        print(f"{url}的响应数据：{res}")
+        res = self.session.request("get", url)
         version_list = res['result']['list']
         for item in version_list:
             if item['currentVersion'] == version:

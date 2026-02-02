@@ -2,7 +2,7 @@
 将数据集中图片按标注切割，并保存到对应标注类别的文件夹下"./pictures"
 """
 import os
-from lizard_class.dataSet import DataSet
+from api.dataSet import DataSet
 from utils.get_bounding_rect import get_bounding_rect
 from utils.save_chinese_path import save_chinese_path
 from utils.extract_filename import extract_filename
@@ -10,9 +10,9 @@ from utils.crop_image_by_points import crop_image_by_points
 
 url = "http://10.110.156.90:9012/"
 # 数据集名称
-dataset_name = "通用分类降过杀数据"
+dataset_name = "通用分类模型-分类测试数据"
 # 数据集目标版本
-dataset_version = "8"
+dataset_version = "4"
 # 记录标注结果
 res = {}
 
